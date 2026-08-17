@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bregma Pharma | Clinical Pharmacy Services</title>
+    <style>
+        :root {
+            --primary-blue: #0A2540;
+            --clinical-teal: #007791;
+            --light-bg: #F4F7F9;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+            --border-color: #D1D9E0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Hospital / Clinical Header */
+        header {
+            background-color: var(--white);
+            border-bottom: 4px solid var(--clinical-teal);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cross-icon {
+            background-color: var(--clinical-teal);
+            color: var(--white);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--clinical-teal);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--clinical-teal);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), #133B5C);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-btn {
+            background-color: var(--clinical-teal);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .hero-btn:hover {
+            background-color: #005f73;
+        }
+
+        /* Main Container Sections */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        section {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        section h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--clinical-teal);
+        }
+
+        .service-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Prescription Refill Interactive Mock */
+        .refill-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        input, select {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--clinical-teal);
+        }
+
+        .submit-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            grid-column: span 2;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #051624;
+        }
+
+        /* Clinical Staff Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--light-bg);
+            color: var(--primary-blue);
+            font-size: 0.9rem;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        /* Bottom Section: Contact & Important Info */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 4rem 2rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--clinical-teal);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-section p, .footer-section ul {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .emergency-box strong {
+            color: #ff6b6b;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .refill-form {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            .submit-btn {
+                grid-column: span 1;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="cross-icon">+</div>
+                <div class="logo-text">
+                    <h1>Bregma Pharma</h1>
+                    <span>Inpatient & Outpatient Clinical Pharmacy</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#refill">Refills</a></li>
+                    <li><a href="#formulary">Formulary</a></li>
+                    <li><a href="#staff">Clinical Staff</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="border: none; border-radius: 0; margin: 0;">
+        <div class="hero-content">
+            <h2>Advanced Clinical Pharmaceutical Care</h2>
+            <p>Integrating evidence-based medicine, sterile compounding, and patient-centered clinical support alongside medical operations.</p>
+            <a href="#refill" class="hero-btn">Request Prescription Refill</a>
+        </div>
+    </section>
+
+    <div class="main-container">
+
+        <section id="services">
+            <h3>Clinical Pharmacy Services</h3>
+            <p>Bregma Pharma functions as an integrated institutional pharmacy supporting complex medical needs, acute care treatments, and long-term care management.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h4>Inpatient Dispensing</h4>
+                    <p>Unit-dose medication distribution systems synchronized securely with hospital electronic health records (EHR).</p>
+                </div>
+                <div class="service-card">
+                    <h4>Sterile Compounding</h4>
+                    <p>USP <797> compliant cleanrooms for intravenous (IV) admixtures, total parenteral nutrition (TPN), and specialized injectables.</p>
+                </div>
+                <div class="service-card">
+                    <h4>Medication Therapy Management</h4>
+                    <p>Comprehensive medication reviews conducted by clinical pharmacists to prevent adverse drug interactions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="refill">
+            <h3>Prescription Intake & Refill Portal</h3>
+            <p>Secure portal for outpatient medication tracking and inpatient discharge script fulfillment.</p>
+            <form class="refill-form" onsubmit="event.preventDefault(); alert('Prescription request logged successfully in the clinical queue.');">
+                <div class="form-group">
+                    <label for="patientName">Patient Full Name</label>
+                    <input type="text" id="patientName" placeholder="e.g., Jane Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="mrn">Medical Record Number (MRN)</label>
+                    <input type="text" id="mrn" placeholder="e.g., #849201" required>
+                </div>
+                <div class="form-group">
+                    <label for="rxNumber">Prescription (Rx) Number</label>
+                    <input type="text" id="rxNumber" placeholder="e.g., RX-0049281" required>
+                </div>
+                <div class="form-group">
+                    <label for="pickupLocation">Fulfillment Destination</label>
+                    <select id="pickupLocation">
+                        <option>Main Hospital Outpatient Pharmacy</option>
+                        <option>North Wing Clinical Dispensary</option>
+                        <option>Direct Home Courier Delivery</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="notes">Clinical Notes / Allergies Update</label>
+                    <input type="text" id="notes" placeholder="Specify any recent changes or reactions">
+                </div>
+                <button type="submit" class="submit-btn">Submit to Dispensing Queue</button>
+            </form>
+        </section>
+
+        <section id="formulary">
+            <h3>Hospital Formulary & Safety Directory</h3>
+            <p>Quick reference overview of standard formulary statuses and safety protocols utilized at Bregma Pharma.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Therapeutic Class</th>
+                        <th>Status</th>
+                        <th>Safety Precaution / Monitoring</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Antimicrobials / Antibiotics</td>
+                        <td>Restricted (ID Approval Required)</td>
+                        <td>Renal dosage adjustment tracking mandatory</td>
+                    </tr>
+                    <tr>
+                        <td>Anticoagulants (DOACs / Warfarin)</td>
+                        <td>Formulary Approved</td>
+                        <td>Routine INR / Anti-Xa level monitoring protocol</td>
+                    </tr>
+                    <tr>
+                        <td>High-Alert Infusions</td>
+                        <td>Strict Institutional Control</td>
+                        <td>Double-nurse independent verification required prior to administration</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="staff">
+            <h3>On-Duty Clinical Specialists</h3>
+            <p>Our licensed clinical doctorate pharmacists (PharmD) specializing in various branches of acute and ambulatory care.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Specialist Name</th>
+                        <th>Specialty</th>
+                        <th>Shift Schedule</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dr. Marcus Vance, PharmD, BCPS</td>
+                        <td>Critical Care & Emergency Support</td>
+                        <td>07:00 - 15:30 (Shift A)</td>
+                    </tr>
+                    <tr>
+                        <td>Dr. Elena Rostova, PharmD, BCOP</td>
+                        <td>Hematology / Oncology Pharmacy</td>
+                        <td>15:00 - 23:30 (Shift B)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Contact & Location</h4>
+                <p><strong>Bregma Pharma Main Facility</strong></p>
+                <p>Medical Center Complex, Wing C</p>
+                <p>Suite 400</p>
+                <br>
+                <p><strong>Primary Phone:</strong> (555) 382-9400</p>
+                <p><strong>Direct Pharmacy Desk:</strong> (555) 382-9422</p>
+                <p><strong>Secure Fax:</strong> (555) 382-9429</p>
+            </div>
+            <div class="footer-section">
+                <h4>Operating Hours</h4>
+                <ul>
+                    <li><strong>Inpatient Pharmacy:</strong> 24 Hours / 7 Days a Week</li>
+                    <li><strong>Outpatient Dispensary:</strong> Mon - Fri: 8:00 AM – 8:00 PM</li>
+                    <li><strong>Weekend Outpatient:</strong> Sat - Sun: 9:00 AM – 5:00 PM</li>
+                    <li><strong>Holiday Coverage:</strong> Emergency window open</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Important Information</h4>
+                <p>All prescription requests require a valid licensed physician authorization matching institutional records.</p>
+                <div class="emergency-box">
+                    <p><strong>Medical Emergency Notice:</strong> If you are experiencing a life-threatening medical emergency, do not use this portal. Dial <strong>911</strong> or proceed to the nearest emergency department immediately.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bregma Pharma Clinical Services. All institutional safety protocols observed.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
