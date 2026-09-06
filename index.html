@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bregma Pharmacy</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
@@ -19,7 +18,6 @@
         <a href="#services" class="hover:underline">Services</a>
         <a href="#products" class="hover:underline">Products</a>
         <a href="#refill" class="hover:underline">Refill RX</a>
-        <a href="#supabase-config" class="hover:underline">Database</a>
         <a href="#contact" class="hover:underline">Contact</a>
       </div>
     </div>
@@ -69,9 +67,15 @@
           <h2 class="text-3xl font-bold text-teal-900">Featured Products</h2>
           <p class="text-gray-600 text-sm mt-1">Browse our over-the-counter wellness, health, and medical essentials.</p>
         </div>
+        <div class="flex gap-2 mt-4 md:mt-0 overflow-x-auto">
+          <button class="px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm">All Items</button>
+          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">Vitamins</button>
+          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">First Aid</button>
+          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">Care Supplies</button>
+        </div>
       </div>
 
-      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
           <div>
@@ -145,56 +149,34 @@
       <form id="refillForm" class="space-y-4">
         <div>
           <label class="block text-sm font-semibold mb-1">Full Name</label>
-          <input type="text" id="refillName" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Jane Doe">
+          <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Jane Doe">
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold mb-1">Phone Number</label>
-            <input type="tel" id="refillPhone" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="(555) 000-0000">
+            <input type="tel" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="(555) 000-0000">
           </div>
           <div>
             <label class="block text-sm font-semibold mb-1">RX / Prescription #</label>
-            <input type="text" id="refillRx" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="RX-123456">
+            <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="RX-123456">
           </div>
         </div>
 
         <div>
           <label class="block text-sm font-semibold mb-1">Fulfillment Option</label>
-          <select id="refillFulfillment" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600">
+          <select class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600">
             <option value="pickup">In-Store Pickup</option>
             <option value="delivery">Home Delivery</option>
           </select>
         </div>
 
-        <button type="submit" id="refillSubmitBtn" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Submit Refill Request</button>
-      </form>
-    </div>
-  </section>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Upload Photo of Prescription (Optional)</label>
+          <input type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
+        </div>
 
-  <section id="supabase-config" class="max-w-6xl mx-auto py-16 px-6">
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">⚡</span>
-        <h2 class="text-2xl font-bold text-teal-900">Supabase Project Settings</h2>
-      </div>
-      <p class="text-sm text-gray-600 mb-6">Manage your Supabase database connection details.</p>
-      
-      <form id="supabaseForm" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Supabase Project URL</label>
-            <input type="url" id="supabaseUrl" required value="https://vjmzmttkewrwcgkugktm.supabase.co" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Supabase Anon Key (Public)</label>
-            <input type="password" id="supabaseKey" required value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqbXptdHRrZXdyd2Nna3Vna3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MTUzODYsImV4cCI6MjEwNDI5MTM4Nn0.aNK_StLSnTIdDVyglZLypgvZF66DjsNrKMwkVXKSmT0" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600">
-          </div>
-        </div>
-        <div class="flex justify-end gap-3 pt-2">
-          <button type="button" id="clearSupabase" class="px-5 py-2.5 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition">Reset Defaults</button>
-          <button type="submit" class="px-6 py-2.5 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition">Save & Test Connection</button>
-        </div>
+        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Submit Refill Request</button>
       </form>
     </div>
   </section>
@@ -223,17 +205,17 @@
       <h3 class="text-xl font-bold text-gray-800 mb-2">Send Us a Message</h3>
       <div>
         <label class="block text-sm font-semibold mb-1">Your Name</label>
-        <input type="text" id="contactName" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="John Smith">
+        <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="John Smith">
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Email Address</label>
-        <input type="email" id="contactEmail" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="john@example.com">
+        <input type="email" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="john@example.com">
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Message</label>
-        <textarea id="contactMessage" rows="4" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="How can we help you?"></textarea>
+        <textarea rows="4" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="How can we help you?"></textarea>
       </div>
-      <button type="submit" id="contactSubmitBtn" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Send Message</button>
+      <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Send Message</button>
     </form>
   </section>
 
@@ -242,171 +224,30 @@
   </footer>
 
   <script>
-    const DEFAULT_SUPABASE_URL = "https://vjmzmttkewrwcgkugktm.supabase.co";
-    const DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqbXptdHRrZXdyd2Nna3Vna3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MTUzODYsImV4cCI6MjEwNDI5MTM4Nn0.aNK_StLSnTIdDVyglZLypgvZF66DjsNrKMwkVXKSmT0";
-
-    let supabaseClient = null;
-
-    window.addEventListener('DOMContentLoaded', async () => {
-      const savedUrl = localStorage.getItem('supabase_url') || DEFAULT_SUPABASE_URL;
-      const savedKey = localStorage.getItem('supabase_key') || DEFAULT_SUPABASE_KEY;
-
-      document.getElementById('supabaseUrl').value = savedUrl;
-      document.getElementById('supabaseKey').value = savedKey;
-
-      await initSupabase(savedUrl, savedKey);
-    });
-
-    async function initSupabase(url, key) {
-      if (window.supabase && url && key) {
-        try {
-          supabaseClient = window.supabase.createClient(url, key);
-          console.log("Supabase client initialized successfully.");
-          return true;
-        } catch (err) {
-          console.error("Failed to initialize Supabase:", err);
-          return false;
-        }
-      }
-      return false;
-    }
-
-    function showToast(message, isError = false) {
+    function showToast(message) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-message');
-      
-      if (isError) {
-        toast.className = "fixed bottom-5 right-5 bg-red-800 text-white px-6 py-4 rounded-lg shadow-xl z-50 transition-all max-w-md";
-      } else {
-        toast.className = "fixed bottom-5 right-5 bg-teal-800 text-white px-6 py-4 rounded-lg shadow-xl z-50 transition-all max-w-md";
-      }
-
       toastMsg.innerText = message;
       toast.classList.remove('hidden');
       setTimeout(() => {
         toast.classList.add('hidden');
-      }, 5000);
+      }, 4000);
     }
 
     function addToCart(productName) {
       showToast(`🛒 ${productName} added to cart!`);
     }
 
-    // --- SUPABASE CONFIGURATION FORM ---
-    document.getElementById('supabaseForm').addEventListener('submit', async function(e) {
+    document.getElementById('refillForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const url = document.getElementById('supabaseUrl').value.trim();
-      const key = document.getElementById('supabaseKey').value.trim();
-
-      localStorage.setItem('supabase_url', url);
-      localStorage.setItem('supabase_key', key);
-      
-      const success = await initSupabase(url, key);
-      if (success) {
-        showToast('⚡ Supabase connected successfully!');
-      } else {
-        showToast('❌ Failed to initialize Supabase. Check URL and Key.', true);
-      }
+      showToast('✅ Prescription refill request submitted successfully!');
+      this.reset();
     });
 
-    document.getElementById('clearSupabase').addEventListener('click', async function() {
-      localStorage.removeItem('supabase_url');
-      localStorage.removeItem('supabase_key');
-      document.getElementById('supabaseUrl').value = DEFAULT_SUPABASE_URL;
-      document.getElementById('supabaseKey').value = DEFAULT_SUPABASE_KEY;
-      await initSupabase(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY);
-
-      showToast('🔄 Reset to default credentials!');
-    });
-
-    // --- REFILL FORM SUBMISSION TO SUPABASE ---
-    document.getElementById('refillForm').addEventListener('submit', async function(e) {
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
-      if (!supabaseClient) {
-        showToast('❌ Supabase is not connected!', true);
-        return;
-      }
-
-      const btn = document.getElementById('refillSubmitBtn');
-      btn.innerText = "Submitting...";
-      btn.disabled = true;
-
-      const fullName = document.getElementById('refillName').value;
-      const phoneNumber = document.getElementById('refillPhone').value;
-      const prescriptionNumber = document.getElementById('refillRx').value;
-      const fulfillmentOption = document.getElementById('refillFulfillment').value;
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('refill_requests')
-          .insert([
-            {
-              full_name: fullName,
-              phone_number: phoneNumber,
-              prescription_number: prescriptionNumber,
-              fulfillment_option: fulfillmentOption
-            }
-          ]);
-
-        if (error) {
-          console.error("Supabase Refill Error:", error);
-          showToast(`❌ Database Error: ${error.message}`, true);
-        } else {
-          showToast('✅ Prescription refill request saved to Supabase!');
-          this.reset();
-        }
-      } catch (err) {
-        console.error("Unexpected Error:", err);
-        showToast('❌ Network error submitting request.', true);
-      } finally {
-        btn.innerText = "Submit Refill Request";
-        btn.disabled = false;
-      }
-    });
-
-    // --- CONTACT FORM SUBMISSION TO SUPABASE ---
-    document.getElementById('contactForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      if (!supabaseClient) {
-        showToast('❌ Supabase is not connected!', true);
-        return;
-      }
-
-      const btn = document.getElementById('contactSubmitBtn');
-      btn.innerText = "Sending...";
-      btn.disabled = true;
-
-      const name = document.getElementById('contactName').value;
-      const email = document.getElementById('contactEmail').value;
-      const message = document.getElementById('contactMessage').value;
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('contact_messages')
-          .insert([
-            {
-              name: name,
-              email: email,
-              message: message
-            }
-          ]);
-
-        if (error) {
-          console.error("Supabase Contact Error:", error);
-          showToast(`❌ Database Error: ${error.message}`, true);
-        } else {
-          showToast('📩 Message saved to Supabase database!');
-          this.reset();
-        }
-      } catch (err) {
-        console.error("Unexpected Error:", err);
-        showToast('❌ Network error sending message.', true);
-      } finally {
-        btn.innerText = "Send Message";
-        btn.disabled = false;
-      }
+      showToast('📩 Your message has been sent to our team!');
+      this.reset();
     });
   </script>
 
