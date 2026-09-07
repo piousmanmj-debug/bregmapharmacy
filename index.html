@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bregma Pharmacy | Healthcare Essentials</title>
+  <title>Pharmacie Bregma | Produits de Santé Essentials</title>
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3063/3063206.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,47 +17,47 @@
       <a href="#" class="text-2xl font-bold flex items-center gap-2">
         <img id="nav-logo" 
              src="pngtree-pharmacy-logo-with-rx-text-vector-png-image_17837482.webp" 
-             alt="Bregma Pharmacy Logo" 
+             alt="Logo Pharmacie Bregma" 
              class="h-10 w-auto object-contain rounded"
              onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3063/3063206.png';" />
-        <span>Bregma Pharmacy</span>
+        <span>Pharmacie Bregma</span>
       </a>
       <div class="space-x-6 hidden md:flex items-center">
         <a href="#services" class="hover:underline">Services</a>
-        <a href="#products" class="hover:underline">Products</a>
-        <a href="#refill" class="hover:underline">Refill RX</a>
+        <a href="#products" class="hover:underline">Produits</a>
+        <a href="#refill" class="hover:underline">Renouvellement RX</a>
         <a href="#contact" class="hover:underline">Contact</a>
       </div>
       <button onclick="toggleCart()" class="relative bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition">
-        <span>🛒 Bin</span>
+        <span>🛒 Panier</span>
         <span id="cart-badge" class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
       </button>
     </div>
   </nav>
 
   <div id="toast" class="hidden fixed bottom-5 right-5 bg-teal-800 text-white px-6 py-4 rounded-lg shadow-xl z-50 transition-all max-w-md">
-    <span id="toast-message">Action completed successfully!</span>
+    <span id="toast-message">Action effectuée avec succès !</span>
   </div>
 
   <div id="cart-drawer-overlay" onclick="toggleCart()" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"></div>
   
   <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
     <div class="p-5 bg-teal-700 text-white flex justify-between items-center">
-      <h3 class="text-xl font-bold flex items-center gap-2">🛒 Your Shopping Bin</h3>
+      <h3 class="text-xl font-bold flex items-center gap-2">🛒 Votre Panier</h3>
       <button onclick="toggleCart()" class="text-2xl font-bold hover:text-gray-300">&times;</button>
     </div>
 
     <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4">
-      <p id="empty-cart-msg" class="text-gray-500 text-center py-10">Your shopping bin is currently empty.</p>
+      <p id="empty-cart-msg" class="text-gray-500 text-center py-10">Votre panier est actuellement vide.</p>
     </div>
 
     <div class="p-5 border-t border-gray-200 bg-gray-50">
       <div class="flex justify-between text-lg font-bold text-gray-900 mb-4">
-        <span>Subtotal:</span>
+        <span>Sous-total :</span>
         <span id="cart-subtotal">$0.00</span>
       </div>
       <button id="checkout-btn" onclick="openCheckout()" disabled class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition disabled:bg-gray-300 disabled:cursor-not-allowed">
-        Proceed to Checkout
+        Procéder au Paiement
       </button>
     </div>
   </div>
@@ -66,66 +66,66 @@
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative my-8">
       <button onclick="closeCheckout()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
       
-      <h3 class="text-2xl font-bold text-teal-900 mb-1">Complete Your Order</h3>
-      <p class="text-sm text-gray-500 mb-6">Select your payment method and enter delivery details.</p>
+      <h3 class="text-2xl font-bold text-teal-900 mb-1">Finaliser Votre Commande</h3>
+      <p class="text-sm text-gray-500 mb-6">Sélectionnez votre mode de paiement et entrez les détails de livraison.</p>
 
       <form id="checkoutForm" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Full Name</label>
-          <input type="text" id="cust-name" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="Jane Doe">
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nom Complet</label>
+          <input type="text" id="cust-name" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="Jean Dupont">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Phone Number</label>
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Téléphone</label>
             <input type="tel" id="cust-phone" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="+509 3838 1323">
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Delivery Address</label>
-            <input type="text" id="cust-address" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="123 Street, City">
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Adresse de Livraison</label>
+            <input type="text" id="cust-address" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="123 Rue Principale, Ville">
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Select Payment Method</label>
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Choisir le Mode de Paiement</label>
           <div class="grid grid-cols-2 gap-3">
             <label class="border-2 border-teal-600 rounded-xl p-3 flex items-center gap-3 cursor-pointer bg-teal-50">
               <input type="radio" name="paymentMethod" value="moncash" checked onclick="switchPayment('moncash')" class="text-teal-600">
               <div>
                 <span class="block font-bold text-sm text-gray-800">MonCash</span>
-                <span class="text-xs text-gray-500">Mobile Money</span>
+                <span class="text-xs text-gray-500">Paiement Mobile</span>
               </div>
             </label>
             <label class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-teal-600 transition">
               <input type="radio" name="paymentMethod" value="visa" onclick="switchPayment('visa')" class="text-teal-600">
               <div>
-                <span class="block font-bold text-sm text-gray-800">Visa / Card</span>
-                <span class="text-xs text-gray-500">Credit or Debit</span>
+                <span class="block font-bold text-sm text-gray-800">Visa / Carte</span>
+                <span class="text-xs text-gray-500">Crédit ou Débit</span>
               </div>
             </label>
           </div>
         </div>
 
         <div id="moncash-fields" class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-3">
-          <p class="text-xs text-amber-800 font-medium">Enter your MonCash registered phone number to receive payment authorization.</p>
+          <p class="text-xs text-amber-800 font-medium">Entrez votre numéro enregistré MonCash pour recevoir l'autorisation de paiement.</p>
           <div>
-            <label class="block text-xs font-bold text-gray-700 mb-1">MonCash Phone Number</label>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Numéro Téléphone MonCash</label>
             <input type="tel" id="moncash-phone" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="+509 3800 0000">
           </div>
         </div>
 
         <div id="visa-fields" class="hidden bg-blue-50 p-4 rounded-xl border border-blue-200 space-y-3">
           <div>
-            <label class="block text-xs font-bold text-gray-700 mb-1">Card Number</label>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Numéro de Carte</label>
             <input type="text" id="card-number" maxlength="19" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="4532 •••• •••• 8890">
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-gray-700 mb-1">Expiry Date</label>
-              <input type="text" id="card-exp" maxlength="5" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="MM/YY">
+              <label class="block text-xs font-bold text-gray-700 mb-1">Date d'Expiration</label>
+              <input type="text" id="card-exp" maxlength="5" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="MM/AA">
             </div>
             <div>
-              <label class="block text-xs font-bold text-gray-700 mb-1">CVV Code</label>
+              <label class="block text-xs font-bold text-gray-700 mb-1">Code CVV</label>
               <input type="password" id="card-cvv" maxlength="4" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="123">
             </div>
           </div>
@@ -133,11 +133,11 @@
 
         <div class="border-t pt-4">
           <div class="flex justify-between items-center mb-4">
-            <span class="font-bold text-gray-700">Total Due:</span>
+            <span class="font-bold text-gray-700">Total à Payer :</span>
             <span id="modal-total" class="text-2xl font-extrabold text-teal-900">$0.00</span>
           </div>
           <button type="submit" id="pay-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
-            <span>Pay & Complete Purchase</span>
+            <span>Payer et Finaliser la Commande</span>
           </button>
         </div>
       </form>
@@ -145,34 +145,34 @@
   </div>
 
   <header class="text-center py-16 bg-teal-50 px-4">
-    <h2 class="text-4xl font-extrabold text-teal-900 mb-4">Welcome to Bregma Pharmacy</h2>
-    <p class="text-lg text-gray-600 mb-6 max-w-xl mx-auto">Fast prescription refills, expert healthcare advice, and convenient local delivery.</p>
+    <h2 class="text-4xl font-extrabold text-teal-900 mb-4">Bienvenue à la Pharmacie Bregma</h2>
+    <p class="text-lg text-gray-600 mb-6 max-w-xl mx-auto">Renouvellement rapide d'ordonnances, conseils experts et livraison locale pratique.</p>
     <div class="flex justify-center gap-4">
-      <a href="#refill" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 shadow transition">Request Refill Online</a>
-      <a href="#products" class="bg-white text-teal-700 border border-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 shadow transition">Shop Products</a>
+      <a href="#refill" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 shadow transition">Renouveler en Ligne</a>
+      <a href="#products" class="bg-white text-teal-700 border border-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 shadow transition">Acheter des Produits</a>
     </div>
   </header>
 
   <section id="services" class="max-w-6xl mx-auto py-16 px-6">
-    <h2 class="text-3xl font-bold text-center text-teal-900 mb-8">Our Services</h2>
+    <h2 class="text-3xl font-bold text-center text-teal-900 mb-8">Nos Services</h2>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
         <div class="text-teal-600 text-3xl mb-2">📋</div>
-        <h3 class="font-bold text-xl mb-2">Prescription Refills</h3>
-        <p class="text-gray-600 text-sm mb-4">Order refills online for quick in-store pickup or direct home delivery.</p>
-        <a href="#refill" class="text-teal-600 font-semibold hover:underline">Order Refill &rarr;</a>
+        <h3 class="font-bold text-xl mb-2">Renouvellement d'Ordonnances</h3>
+        <p class="text-gray-600 text-sm mb-4">Commandez vos renouvellements en ligne pour un retrait rapide ou une livraison à domicile.</p>
+        <a href="#refill" class="text-teal-600 font-semibold hover:underline">Commander &rarr;</a>
       </div>
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
         <div class="text-teal-600 text-3xl mb-2">💉</div>
         <h3 class="font-bold text-xl mb-2">Vaccinations</h3>
-        <p class="text-gray-600 text-sm mb-4">Flu shots, travel vaccines, and routine immunizations available daily.</p>
-        <a href="#contact" class="text-teal-600 font-semibold hover:underline">Book Appointment &rarr;</a>
+        <p class="text-gray-600 text-sm mb-4">Vaccins contre la grippe, vaccins de voyage et immunisations de routine disponibles tous les jours.</p>
+        <a href="#contact" class="text-teal-600 font-semibold hover:underline">Prendre Rendez-vous &rarr;</a>
       </div>
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
         <div class="text-teal-600 text-3xl mb-2">🩺</div>
-        <h3 class="font-bold text-xl mb-2">Health Consultations</h3>
-        <p class="text-gray-600 text-sm mb-4">Speak directly with our pharmacists regarding your medications and wellness.</p>
-        <a href="#contact" class="text-teal-600 font-semibold hover:underline">Ask a Pharmacist &rarr;</a>
+        <h3 class="font-bold text-xl mb-2">Consultations de Santé</h3>
+        <p class="text-gray-600 text-sm mb-4">Parlez directement avec nos pharmaciens concernant vos médicaments et votre bien-être.</p>
+        <a href="#contact" class="text-teal-600 font-semibold hover:underline">Consulter un Pharmacien &rarr;</a>
       </div>
     </div>
   </section>
@@ -180,8 +180,8 @@
   <section id="products" class="bg-gray-100 py-16 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="mb-6">
-        <h2 class="text-3xl font-bold text-teal-900">Featured Products</h2>
-        <p class="text-gray-600 text-sm mt-1">Browse our over-the-counter wellness, health, and medical essentials.</p>
+        <h2 class="text-3xl font-bold text-teal-900">Produits en Vedette</h2>
+        <p class="text-gray-600 text-sm mt-1">Parcourez nos essentiels de santé, soins et produits sans ordonnance.</p>
       </div>
 
       <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
@@ -190,69 +190,69 @@
             type="text" 
             id="pill-search-input" 
             oninput="searchPillByName(this.value)" 
-            placeholder="🔍 Search items by name (e.g. Amoxicillin, Vitamins)..." 
+            placeholder="🔍 Rechercher par nom (ex. Amoxicilline, Vitamines)..." 
             class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-teal-600 bg-gray-50"
           >
         </div>
         <div class="flex gap-2 overflow-x-auto w-full md:w-auto" id="category-filters">
-          <button onclick="filterProducts('All', this)" class="cat-btn px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm transition">All Items</button>
+          <button onclick="filterProducts('All', this)" class="cat-btn px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm transition">Tous les Articles</button>
           <button onclick="filterProducts('Diagnostics', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Diagnostics</button>
-          <button onclick="filterProducts('Vitamins', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Vitamins</button>
-          <button onclick="filterProducts('First Aid', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">First Aid</button>
-          <button onclick="filterProducts('Wellness', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Wellness</button>
+          <button onclick="filterProducts('Vitamins', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Vitamines</button>
+          <button onclick="filterProducts('First Aid', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Premiers Secours</button>
+          <button onclick="filterProducts('Wellness', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Bien-être</button>
         </div>
       </div>
 
       <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <p class="col-span-full text-center text-gray-500 py-12">Loading products from database...</p>
+        <p class="col-span-full text-center text-gray-500 py-12">Chargement des produits depuis la base de données...</p>
       </div>
     </div>
   </section>
 
   <section id="refill" class="bg-teal-900 text-white py-16 px-6">
     <div class="max-w-2xl mx-auto bg-white text-gray-800 p-8 rounded-2xl shadow-lg">
-      <h2 class="text-2xl font-bold text-teal-900 mb-2 text-center">Request a Prescription Refill</h2>
-      <p class="text-sm text-gray-500 mb-6 text-center">Fill out the details below and we will notify you when it is ready.</p>
+      <h2 class="text-2xl font-bold text-teal-900 mb-2 text-center">Demande de Renouvellement d'Ordonnance</h2>
+      <p class="text-sm text-gray-500 mb-6 text-center">Remplissez les détails ci-dessous et nous vous informerons quand ce sera prêt.</p>
       
       <form id="refillForm" class="space-y-4">
         <div>
-          <label class="block text-sm font-semibold mb-1">Full Name</label>
-          <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Jane Doe">
+          <label class="block text-sm font-semibold mb-1">Nom Complet</label>
+          <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Jean Dupont">
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold mb-1">Phone Number</label>
-            <input type="tel" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="(555) 000-0000">
+            <label class="block text-sm font-semibold mb-1">Téléphone</label>
+            <input type="tel" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="+509 3838 1323">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">RX / Prescription #</label>
+            <label class="block text-sm font-semibold mb-1">N° d'Ordonnance / RX</label>
             <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="RX-123456">
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold mb-1">Fulfillment Option</label>
+          <label class="block text-sm font-semibold mb-1">Option de Récupération</label>
           <select class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600">
-            <option value="pickup">In-Store Pickup</option>
-            <option value="delivery">Home Delivery</option>
+            <option value="pickup">Retrait en Pharmacie</option>
+            <option value="delivery">Livraison à Domicile</option>
           </select>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold mb-1">Upload Photo of Prescription (Optional)</label>
+          <label class="block text-sm font-semibold mb-1">Télécharger une Photo de l'Ordonnance (Optionnel)</label>
           <input type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
         </div>
 
-        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Submit Refill Request</button>
+        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Soumettre la Demande</button>
       </form>
     </div>
   </section>
 
   <section id="contact" class="max-w-6xl mx-auto py-16 px-6 grid md:grid-cols-2 gap-12">
     <div>
-      <h2 class="text-3xl font-bold text-teal-900 mb-4">Contact Bregma Pharmacy</h2>
-      <p class="text-gray-600 mb-6">Have questions about your prescription or need advice? Send us a message or give us a call.</p>
+      <h2 class="text-3xl font-bold text-teal-900 mb-4">Contacter la Pharmacie Bregma</h2>
+      <p class="text-gray-600 mb-6">Vous avez des questions concernant votre ordonnance ou besoin de conseils ? Envoyez-nous un message ou appelez-nous.</p>
       
       <div class="space-y-4 mb-8">
         <p class="flex items-center gap-3 text-gray-700">📍 <span>123 Healthcare Blvd, Suite 100</span></p>
@@ -263,30 +263,30 @@
             <a href="tel:+16493424105" class="text-teal-700 font-semibold hover:underline block">+1 (649) 342-4105</a>
           </span>
         </p>
-        <p class="flex items-center gap-3 text-gray-700">⏰ <span>Mon - Fri: 8:00 AM - 8:00 PM | Sat: 9:00 AM - 5:00 PM</span></p>
+        <p class="flex items-center gap-3 text-gray-700">⏰ <span>Lun - Ven : 08h00 - 20h00 | Sam : 09h00 - 17h00</span></p>
       </div>
     </div>
 
     <form id="contactForm" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 space-y-4">
-      <h3 class="text-xl font-bold text-gray-800 mb-2">Send Us a Message</h3>
+      <h3 class="text-xl font-bold text-gray-800 mb-2">Envoyez-nous un Message</h3>
       <div>
-        <label class="block text-sm font-semibold mb-1">Your Name</label>
-        <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="John Smith">
+        <label class="block text-sm font-semibold mb-1">Votre Nom</label>
+        <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Jean Dupont">
       </div>
       <div>
-        <label class="block text-sm font-semibold mb-1">Email Address</label>
-        <input type="email" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="john@example.com">
+        <label class="block text-sm font-semibold mb-1">Adresse E-mail</label>
+        <input type="email" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="jean@example.com">
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Message</label>
-        <textarea rows="4" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="How can we help you?"></textarea>
+        <textarea rows="4" required class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="Comment pouvons-nous vous aider ?"></textarea>
       </div>
-      <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Send Message</button>
+      <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Envoyer le Message</button>
     </form>
   </section>
 
   <footer class="bg-gray-800 text-gray-300 text-center py-6">
-    <p>&copy; 2026 Bregma Pharmacy. All rights reserved.</p>
+    <p>&copy; 2026 Pharmacie Bregma. Tous droits réservés.</p>
   </footer>
 
   <script>
@@ -297,13 +297,13 @@
     let cart = [];
     let allProducts = [];
 
-    // Image fallback error handler
+    // Gestionnaire de secours pour les images manquantes
     function handleImgError(imgElement, emoji) {
       imgElement.onerror = null;
       imgElement.parentElement.innerHTML = `<span class="text-5xl">${emoji || '💊'}</span>`;
     }
 
-    // 1. Fetch products from Supabase
+    // 1. Récupérer les produits depuis Supabase
     async function fetchProducts() {
       const container = document.getElementById('product-list');
       const { data, error } = await supabaseClient
@@ -312,8 +312,8 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Database connection error:', error);
-        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-8">Failed to connect to Supabase products table.</p>`;
+        console.error('Erreur de connexion à la base de données:', error);
+        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-8">Échec de la connexion à la table des produits.</p>`;
         return;
       }
 
@@ -321,11 +321,11 @@
       renderProducts(allProducts);
     }
 
-    // 2. Render Product Cards
+    // 2. Afficher les Cartes de Produits
     function renderProducts(products) {
       const container = document.getElementById('product-list');
       if (!products || products.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">No products found matching your criteria.</p>`;
+        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">Aucun produit ne correspond à vos critères.</p>`;
         return;
       }
 
@@ -341,14 +341,14 @@
                   ? `<img src="${p.image_url}" alt="${p.name}" class="h-full w-full object-cover rounded-xl" onerror="handleImgError(this, '${emoji}')" />` 
                   : `<span class="text-5xl">${emoji}</span>`}
               </div>
-              <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2 py-1 rounded">${p.category || 'General'}</span>
+              <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2 py-1 rounded">${p.category || 'Général'}</span>
               <h3 class="font-bold text-lg text-gray-900 mt-2">${p.name}</h3>
               <p class="text-gray-500 text-xs mt-1">${p.description || ''}</p>
             </div>
             <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
               <span class="text-xl font-bold text-teal-900">$${parseFloat(p.price).toFixed(2)}</span>
               <button onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
-                <span>+</span> Add to Bin
+                <span>+</span> Ajouter
               </button>
             </div>
           </div>
@@ -356,7 +356,7 @@
       }).join('');
     }
 
-    // 3. Live Search Functionality
+    // 3. Recherche en Direct
     async function searchPillByName(searchTerm) {
       const trimmed = searchTerm.trim();
       if (!trimmed) {
@@ -378,7 +378,7 @@
       renderProducts(data);
     }
 
-    // 4. Category Filtering
+    // 4. Filtrage par Catégorie
     function filterProducts(category, btnElement) {
       document.getElementById('pill-search-input').value = '';
       document.querySelectorAll('#category-filters button').forEach(btn => {
@@ -394,7 +394,7 @@
       }
     }
 
-    // 5. Toast Notifications
+    // 5. Notifications Toast
     function showToast(message) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-message');
@@ -403,7 +403,7 @@
       setTimeout(() => { toast.classList.add('hidden'); }, 4000);
     }
 
-    // 6. Cart Drawer & Controls
+    // 6. Gestion du Panier
     function toggleCart() {
       document.getElementById('cart-drawer').classList.toggle('translate-x-full');
       document.getElementById('cart-drawer-overlay').classList.toggle('hidden');
@@ -417,7 +417,7 @@
         cart.push({ id, name, price: parseFloat(price), qty: 1 });
       }
       renderCart();
-      showToast(`🛒 "${name}" added to bin!`);
+      showToast(`🛒 « ${name} » ajouté au panier !`);
     }
 
     function updateQty(id, delta) {
@@ -449,7 +449,7 @@
       subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
 
       if (cart.length === 0) {
-        cartItemsContainer.innerHTML = `<p id="empty-cart-msg" class="text-gray-500 text-center py-10">Your shopping bin is currently empty.</p>`;
+        cartItemsContainer.innerHTML = `<p id="empty-cart-msg" class="text-gray-500 text-center py-10">Votre panier est actuellement vide.</p>`;
         return;
       }
 
@@ -457,7 +457,7 @@
         <div class="flex items-center justify-between border-b border-gray-100 pb-3">
           <div class="flex-1 pr-2">
             <h4 class="font-bold text-sm text-gray-800">${item.name}</h4>
-            <span class="text-xs text-teal-700 font-semibold">$${item.price.toFixed(2)} each</span>
+            <span class="text-xs text-teal-700 font-semibold">$${item.price.toFixed(2)} l'unité</span>
           </div>
           <div class="flex items-center gap-2 bg-gray-100 rounded-lg px-2 py-1">
             <button onclick="updateQty('${item.id}', -1)" class="text-gray-600 font-bold px-1 hover:text-red-600">-</button>
@@ -468,7 +468,7 @@
       `).join('');
     }
 
-    // 7. Checkout Logic
+    // 7. Logique de Paiement
     function openCheckout() {
       toggleCart();
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
@@ -492,12 +492,12 @@
       }
     }
 
-    // 8. Form Handlers
+    // 8. Gestionnaires de Formulaires
     document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('pay-submit-btn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Processing...</span>`;
+      submitBtn.innerHTML = `<span>Traitement en cours...</span>`;
 
       const { error } = await supabaseClient.from('orders').insert([{
         customer_name: document.getElementById('cust-name').value,
@@ -510,15 +510,15 @@
       }]);
 
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span>Pay & Complete Purchase</span>`;
+      submitBtn.innerHTML = `<span>Payer et Finaliser la Commande</span>`;
 
       if (error) {
-        showToast('❌ Order submission failed.');
+        showToast('❌ Échec de la soumission de la commande.');
       } else {
         closeCheckout();
         cart = [];
         renderCart();
-        showToast(`🎉 Payment successful! Order placed.`);
+        showToast(`🎉 Paiement réussi ! Commande effectuée.`);
         this.reset();
       }
     });
@@ -549,9 +549,9 @@
       }]);
 
       if (error) {
-        showToast('❌ Refill request failed.');
+        showToast('❌ Échec de la demande de renouvellement.');
       } else {
-        showToast('✅ Prescription refill request submitted!');
+        showToast('✅ Demande de renouvellement d\'ordonnance soumise !');
         this.reset();
       }
     });
@@ -565,14 +565,14 @@
       }]);
 
       if (error) {
-        showToast('❌ Failed to send message.');
+        showToast('❌ Échec de l\'envoi du message.');
       } else {
-        showToast('📩 Message sent!');
+        showToast('📩 Message envoyé !');
         this.reset();
       }
     });
 
-    // Initialize Database Sync
+    // Initialisation
     window.addEventListener('DOMContentLoaded', fetchProducts);
   </script>
 
