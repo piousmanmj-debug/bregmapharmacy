@@ -9,23 +9,136 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <nav class="bg-teal-700 text-white px-6 py-4 sticky top-0 z-50 shadow-md">
+  <nav class="bg-teal-700 text-white px-6 py-4 sticky top-0 z-40 shadow-md">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
       <a href="#" class="text-2xl font-bold flex items-center gap-2">
-        <img src="pngtree-pharmacy-logo-with-rx-text-vector-png-image_17837482.webp" alt="Bregma Pharmacy Logo" class="h-10 w-auto object-contain">
+        <img id="nav-logo" 
+             src="pngtree-pharmacy-logo-with-rx-text-vector-png-image_17837482.webp" 
+             alt="Bregma Pharmacy Logo" 
+             class="h-10 w-auto object-contain rounded"
+             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3063/3063206.png';" />
         <span>Bregma Pharmacy</span>
       </a>
-      <div class="space-x-6 hidden md:flex">
+      <div class="space-x-6 hidden md:flex items-center">
         <a href="#services" class="hover:underline">Services</a>
         <a href="#products" class="hover:underline">Products</a>
         <a href="#refill" class="hover:underline">Refill RX</a>
         <a href="#contact" class="hover:underline">Contact</a>
       </div>
+      <button onclick="toggleCart()" class="relative bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition">
+        <span>🛒 Bin</span>
+        <span id="cart-badge" class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+      </button>
     </div>
   </nav>
 
   <div id="toast" class="hidden fixed bottom-5 right-5 bg-teal-800 text-white px-6 py-4 rounded-lg shadow-xl z-50 transition-all max-w-md">
     <span id="toast-message">Action completed successfully!</span>
+  </div>
+
+  <div id="cart-drawer-overlay" onclick="toggleCart()" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"></div>
+  
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 bg-teal-700 text-white flex justify-between items-center">
+      <h3 class="text-xl font-bold flex items-center gap-2">🛒 Your Shopping Bin</h3>
+      <button onclick="toggleCart()" class="text-2xl font-bold hover:text-gray-300">&times;</button>
+    </div>
+
+    <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+      <p id="empty-cart-msg" class="text-gray-500 text-center py-10">Your shopping bin is currently empty.</p>
+    </div>
+
+    <div class="p-5 border-t border-gray-200 bg-gray-50">
+      <div class="flex justify-between text-lg font-bold text-gray-900 mb-4">
+        <span>Subtotal:</span>
+        <span id="cart-subtotal">$0.00</span>
+      </div>
+      <button id="checkout-btn" onclick="openCheckout()" disabled class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition disabled:bg-gray-300 disabled:cursor-not-allowed">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative my-8">
+      <button onclick="closeCheckout()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+      
+      <h3 class="text-2xl font-bold text-teal-900 mb-1">Complete Your Order</h3>
+      <p class="text-sm text-gray-500 mb-6">Select your payment method and enter delivery details.</p>
+
+      <form id="checkoutForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Full Name</label>
+          <input type="text" id="cust-name" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="Jane Doe">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Phone Number</label>
+            <input type="tel" id="cust-phone" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="+509 3838 1323">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Delivery Address</label>
+            <input type="text" id="cust-address" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none" placeholder="123 Street, City">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Select Payment Method</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="border-2 border-teal-600 rounded-xl p-3 flex items-center gap-3 cursor-pointer bg-teal-50">
+              <input type="radio" name="paymentMethod" value="moncash" checked onclick="switchPayment('moncash')" class="text-teal-600">
+              <div>
+                <span class="block font-bold text-sm text-gray-800">MonCash</span>
+                <span class="text-xs text-gray-500">Mobile Money</span>
+              </div>
+            </label>
+            <label class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:border-teal-600 transition">
+              <input type="radio" name="paymentMethod" value="visa" onclick="switchPayment('visa')" class="text-teal-600">
+              <div>
+                <span class="block font-bold text-sm text-gray-800">Visa / Card</span>
+                <span class="text-xs text-gray-500">Credit or Debit</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="moncash-fields" class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-3">
+          <p class="text-xs text-amber-800 font-medium">Enter your MonCash registered phone number to receive payment authorization.</p>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">MonCash Phone Number</label>
+            <input type="tel" id="moncash-phone" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="+509 3800 0000">
+          </div>
+        </div>
+
+        <div id="visa-fields" class="hidden bg-blue-50 p-4 rounded-xl border border-blue-200 space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Card Number</label>
+            <input type="text" id="card-number" maxlength="19" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="4532 •••• •••• 8890">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">Expiry Date</label>
+              <input type="text" id="card-exp" maxlength="5" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="MM/YY">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">CVV Code</label>
+              <input type="password" id="card-cvv" maxlength="4" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none" placeholder="123">
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <div class="flex justify-between items-center mb-4">
+            <span class="font-bold text-gray-700">Total Due:</span>
+            <span id="modal-total" class="text-2xl font-extrabold text-teal-900">$0.00</span>
+          </div>
+          <button type="submit" id="pay-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+            <span>Pay & Complete Purchase</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <header class="text-center py-16 bg-teal-50 px-4">
@@ -63,81 +176,34 @@
 
   <section id="products" class="bg-gray-100 py-16 px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h2 class="text-3xl font-bold text-teal-900">Featured Products</h2>
           <p class="text-gray-600 text-sm mt-1">Browse our over-the-counter wellness, health, and medical essentials.</p>
         </div>
-        <div class="flex gap-2 mt-4 md:mt-0 overflow-x-auto">
-          <button class="px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm">All Items</button>
-          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">Vitamins</button>
-          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">First Aid</button>
-          <button class="px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm">Care Supplies</button>
+      </div>
+
+      <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+        <div class="w-full md:w-1/2 relative">
+          <input 
+            type="text" 
+            id="pill-search-input" 
+            oninput="searchPillByName(this.value)" 
+            placeholder="🔍 Search pill by name (e.g. Vitamin, Amoxicillin)..." 
+            class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-teal-600 bg-gray-50"
+          >
+        </div>
+        <div class="flex gap-2 overflow-x-auto w-full md:w-auto" id="category-filters">
+          <button onclick="filterProducts('All', this)" class="cat-btn px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm transition">All Items</button>
+          <button onclick="filterProducts('Diagnostics', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Diagnostics</button>
+          <button onclick="filterProducts('Vitamins', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Vitamins</button>
+          <button onclick="filterProducts('First Aid', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">First Aid</button>
+          <button onclick="filterProducts('Wellness', this)" class="cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition">Wellness</button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div class="h-40 bg-teal-50 rounded-xl flex items-center justify-center text-5xl mb-4">🩺</div>
-            <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2 py-1 rounded">Diagnostics</span>
-            <h3 class="font-bold text-lg text-gray-900 mt-2">Digital Blood Pressure Monitor</h3>
-            <p class="text-gray-500 text-xs mt-1">Accurate, easy-to-read upper arm monitor with memory storage.</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
-            <span class="text-xl font-bold text-teal-900">$39.99</span>
-            <button onclick="addToCart('Digital Blood Pressure Monitor')" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
-              <span>+</span> Add
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div class="h-40 bg-amber-50 rounded-xl flex items-center justify-center text-5xl mb-4">🧪</div>
-            <span class="text-xs font-semibold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-1 rounded">Vitamins</span>
-            <h3 class="font-bold text-lg text-gray-900 mt-2">Daily Multivitamin Complex</h3>
-            <p class="text-gray-500 text-xs mt-1">60 tablets supplying essential daily nutrients and immune support.</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
-            <span class="text-xl font-bold text-teal-900">$18.50</span>
-            <button onclick="addToCart('Daily Multivitamin Complex')" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
-              <span>+</span> Add
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div class="h-40 bg-red-50 rounded-xl flex items-center justify-center text-5xl mb-4">🩹</div>
-            <span class="text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-1 rounded">First Aid</span>
-            <h3 class="font-bold text-lg text-gray-900 mt-2">Complete Emergency First Aid Kit</h3>
-            <p class="text-gray-500 text-xs mt-1">120 pieces including bandages, antiseptic wipes, and gauze rolls.</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
-            <span class="text-xl font-bold text-teal-900">$24.99</span>
-            <button onclick="addToCart('Emergency First Aid Kit')" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
-              <span>+</span> Add
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div class="h-40 bg-blue-50 rounded-xl flex items-center justify-center text-5xl mb-4">🌡️</div>
-            <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded">Wellness</span>
-            <h3 class="font-bold text-lg text-gray-900 mt-2">No-Contact Infrared Thermometer</h3>
-            <p class="text-gray-500 text-xs mt-1">Instant 1-second temperature readout with color-coded fever alert.</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
-            <span class="text-xl font-bold text-teal-900">$29.99</span>
-            <button onclick="addToCart('Infrared Thermometer')" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
-              <span>+</span> Add
-            </button>
-          </div>
-        </div>
-
+      <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <p class="col-span-full text-center text-gray-500 py-8">Loading products from database...</p>
       </div>
     </div>
   </section>
@@ -225,106 +291,293 @@
   </footer>
 
   <script>
-    // Initialize Supabase Client using CDN global `window.supabase`
+    // 1. Initialize Supabase Client
     const SUPABASE_URL = 'https://vjmzmttkewrwcgkugktm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqbXptdHRrZXdyd2Nna3Vna3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MTUzODYsImV4cCI6MjEwNDI5MTM4Nn0.aNK_StLSnTIdDVyglZLypgvZF66DjsNrKMwkVXKSmT0';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // Global State
+    let cart = [];
+    let allProducts = [];
+
+    // Dedicated Image Error Handler to prevent syntax crashes
+    function handleImgError(imgElement, emoji) {
+      imgElement.onerror = null; // prevents endless retry loops
+      imgElement.parentElement.innerHTML = `<span class="text-5xl">${emoji || '💊'}</span>`;
+    }
+
+    // 2. Fetch Products from Supabase
+    async function fetchProducts() {
+      const container = document.getElementById('product-list');
+      const { data, error } = await supabaseClient
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching products:', error);
+        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-8">Failed to load products from database.</p>`;
+        return;
+      }
+
+      allProducts = data || [];
+      renderProducts(allProducts);
+    }
+
+    // 3. Render Product Cards (Supports Image URLs & Fallback Emojis)
+    function renderProducts(products) {
+      const container = document.getElementById('product-list');
+      if (!products || products.length === 0) {
+        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">No products found.</p>`;
+        return;
+      }
+
+      container.innerHTML = products.map(p => {
+        const emoji = p.icon_emoji || '💊';
+        const hasImg = p.image_url && p.image_url.trim() !== '';
+
+        return `
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
+            <div>
+              <div class="h-44 bg-teal-50 rounded-xl flex items-center justify-center overflow-hidden mb-4 relative">
+                ${hasImg 
+                  ? `<img src="${p.image_url}" alt="${p.name}" class="h-full w-full object-cover rounded-xl" onerror="handleImgError(this, '${emoji}')" />` 
+                  : `<span class="text-5xl">${emoji}</span>`}
+              </div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2 py-1 rounded">${p.category || 'General'}</span>
+              <h3 class="font-bold text-lg text-gray-900 mt-2">${p.name}</h3>
+              <p class="text-gray-500 text-xs mt-1">${p.description || ''}</p>
+            </div>
+            <div class="mt-4 flex items-center justify-between border-t pt-4 border-gray-100">
+              <span class="text-xl font-bold text-teal-900">$${parseFloat(p.price).toFixed(2)}</span>
+              <button onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1">
+                <span>+</span> Add to Bin
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 4. Live Search Function
+    async function searchPillByName(searchTerm) {
+      const trimmed = searchTerm.trim();
+      
+      if (!trimmed) {
+        renderProducts(allProducts);
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from('products')
+        .select('*')
+        .ilike('name', `%${trimmed}%`);
+
+      if (error) {
+        const localMatches = allProducts.filter(p => p.name.toLowerCase().includes(trimmed.toLowerCase()));
+        renderProducts(localMatches);
+        return;
+      }
+
+      renderProducts(data);
+    }
+
+    // 5. Category Filters
+    function filterProducts(category, btnElement) {
+      document.getElementById('pill-search-input').value = '';
+      document.querySelectorAll('#category-filters button').forEach(btn => {
+        btn.className = 'cat-btn px-4 py-2 bg-white text-gray-700 hover:bg-teal-50 text-sm font-medium rounded-full border border-gray-200 shadow-sm transition';
+      });
+      btnElement.className = 'cat-btn px-4 py-2 bg-teal-700 text-white text-sm font-medium rounded-full shadow-sm transition';
+
+      if (category === 'All') {
+        renderProducts(allProducts);
+      } else {
+        const filtered = allProducts.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
+        renderProducts(filtered);
+      }
+    }
+
+    // 6. Toast Alerts
     function showToast(message) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-message');
       toastMsg.innerText = message;
       toast.classList.remove('hidden');
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 4000);
+      setTimeout(() => { toast.classList.add('hidden'); }, 4000);
     }
 
-    function addToCart(productName) {
-      showToast(`🛒 ${productName} added to cart!`);
+    // 7. Shopping Bin Controls
+    function toggleCart() {
+      document.getElementById('cart-drawer').classList.toggle('translate-x-full');
+      document.getElementById('cart-drawer-overlay').classList.toggle('hidden');
     }
 
-    // Prescription Refill Form Handler
-    document.getElementById('refillForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    function addToCart(id, name, price) {
+      const existingItem = cart.find(item => item.id === id);
+      if (existingItem) {
+        existingItem.qty += 1;
+      } else {
+        cart.push({ id, name, price: parseFloat(price), qty: 1 });
+      }
+      renderCart();
+      showToast(`🛒 "${name}" added to bin!`);
+    }
 
-      const formInputs = this.querySelectorAll('input');
-      const fullName = formInputs[0].value;
-      const phone = formInputs[1].value;
-      const rxNumber = formInputs[2].value;
-      const fulfillment = this.querySelector('select').value;
-      const fileInput = formInputs[3];
+    function updateQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      renderCart();
+    }
 
-      let photoUrl = null;
+    function renderCart() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      const badge = document.getElementById('cart-badge');
+      const subtotalEl = document.getElementById('cart-subtotal');
+      const checkoutBtn = document.getElementById('checkout-btn');
 
-      // Upload file to Supabase Storage if attached
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const fileExt = file.name.split('.').pop();
-        const filePath = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-        const { data: uploadData, error: uploadError } = await supabaseClient.storage
-          .from('prescriptions')
-          .upload(filePath, file);
-
-        if (uploadError) {
-          showToast('❌ Failed to upload prescription photo.');
-          console.error(uploadError);
-          return;
-        }
-
-        const { data: publicUrlData } = supabaseClient.storage
-          .from('prescriptions')
-          .getPublicUrl(filePath);
-
-        photoUrl = publicUrlData.publicUrl;
+      if (totalItems > 0) {
+        badge.innerText = totalItems;
+        badge.classList.remove('hidden');
+        checkoutBtn.disabled = false;
+      } else {
+        badge.classList.add('hidden');
+        checkoutBtn.disabled = true;
       }
 
-      // Insert data into 'refills' table
-      const { error } = await supabaseClient
-        .from('refills')
-        .insert([
-          {
-            full_name: fullName,
-            phone: phone,
-            rx_number: rxNumber,
-            fulfillment_option: fulfillment,
-            prescription_photo_url: photoUrl
-          }
-        ]);
+      subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `<p id="empty-cart-msg" class="text-gray-500 text-center py-10">Your shopping bin is currently empty.</p>`;
+        return;
+      }
+
+      cartItemsContainer.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+          <div class="flex-1 pr-2">
+            <h4 class="font-bold text-sm text-gray-800">${item.name}</h4>
+            <span class="text-xs text-teal-700 font-semibold">$${item.price.toFixed(2)} each</span>
+          </div>
+          <div class="flex items-center gap-2 bg-gray-100 rounded-lg px-2 py-1">
+            <button onclick="updateQty('${item.id}', -1)" class="text-gray-600 font-bold px-1 hover:text-red-600">-</button>
+            <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+            <button onclick="updateQty('${item.id}', 1)" class="text-gray-600 font-bold px-1 hover:text-teal-600">+</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 8. Checkout Modal
+    function openCheckout() {
+      toggleCart();
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      document.getElementById('modal-total').innerText = `$${subtotal.toFixed(2)}`;
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+
+    function switchPayment(type) {
+      const moncashFields = document.getElementById('moncash-fields');
+      const visaFields = document.getElementById('visa-fields');
+      if (type === 'moncash') {
+        moncashFields.classList.remove('hidden');
+        visaFields.classList.add('hidden');
+      } else {
+        moncashFields.classList.add('hidden');
+        visaFields.classList.remove('hidden');
+      }
+    }
+
+    // 9. Form Submissions
+    document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('pay-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Processing...</span>`;
+
+      const { error } = await supabaseClient.from('orders').insert([{
+        customer_name: document.getElementById('cust-name').value,
+        phone: document.getElementById('cust-phone').value,
+        address: document.getElementById('cust-address').value,
+        payment_method: document.querySelector('input[name="paymentMethod"]:checked').value,
+        total_amount: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+        items: cart,
+        status: 'paid'
+      }]);
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<span>Pay & Complete Purchase</span>`;
 
       if (error) {
-        showToast('❌ Failed to submit refill request.');
-        console.error(error);
+        showToast('❌ Order submission failed.');
       } else {
-        showToast('✅ Prescription refill request submitted successfully!');
+        closeCheckout();
+        cart = [];
+        renderCart();
+        showToast(`🎉 Payment successful! Order placed.`);
         this.reset();
       }
     });
 
-    // Contact Form Handler
+    document.getElementById('refillForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formInputs = this.querySelectorAll('input');
+      const fileInput = formInputs[3];
+      let photoUrl = null;
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const filePath = `${Date.now()}_${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`;
+        const { error: uploadError } = await supabaseClient.storage.from('prescriptions').upload(filePath, file);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabaseClient.storage.from('prescriptions').getPublicUrl(filePath);
+          photoUrl = publicUrlData.publicUrl;
+        }
+      }
+
+      const { error } = await supabaseClient.from('refills').insert([{
+        full_name: formInputs[0].value,
+        phone: formInputs[1].value,
+        rx_number: formInputs[2].value,
+        fulfillment_option: this.querySelector('select').value,
+        prescription_photo_url: photoUrl
+      }]);
+
+      if (error) {
+        showToast('❌ Refill request failed.');
+      } else {
+        showToast('✅ Prescription refill request submitted!');
+        this.reset();
+      }
+    });
+
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-
-      const name = this.querySelector('input[type="text"]').value;
-      const email = this.querySelector('input[type="email"]').value;
-      const message = this.querySelector('textarea').value;
-
-      // Insert data into 'contact_messages' table
-      const { error } = await supabaseClient
-        .from('contact_messages')
-        .insert([
-          { name: name, email: email, message: message }
-        ]);
+      const { error } = await supabaseClient.from('contact_messages').insert([{
+        name: this.querySelector('input[type="text"]').value,
+        email: this.querySelector('input[type="email"]').value,
+        message: this.querySelector('textarea').value
+      }]);
 
       if (error) {
         showToast('❌ Failed to send message.');
-        console.error(error);
       } else {
-        showToast('📩 Your message has been sent to our team!');
+        showToast('📩 Message sent!');
         this.reset();
       }
     });
+
+    // Load initial products
+    window.addEventListener('DOMContentLoaded', fetchProducts);
   </script>
 
 </body>
