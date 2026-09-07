@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bregma Pharmacy</title>
+  
+  <title>Bregma Pharmacy | Healthcare Essentials</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3063/3063206.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -176,20 +179,18 @@
 
   <section id="products" class="bg-gray-100 py-16 px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div>
-          <h2 class="text-3xl font-bold text-teal-900">Featured Products</h2>
-          <p class="text-gray-600 text-sm mt-1">Browse our over-the-counter wellness, health, and medical essentials.</p>
-        </div>
+      <div class="mb-6">
+        <h2 class="text-3xl font-bold text-teal-900">Featured Products</h2>
+        <p class="text-gray-600 text-sm mt-1">Browse our over-the-counter wellness, health, and medical essentials.</p>
       </div>
 
       <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-        <div class="w-full md:w-1/2 relative">
+        <div class="w-full md:w-1/2">
           <input 
             type="text" 
             id="pill-search-input" 
             oninput="searchPillByName(this.value)" 
-            placeholder="🔍 Search pill by name (e.g. Vitamin, Amoxicillin)..." 
+            placeholder="🔍 Search items by name (e.g. Amoxicillin, Vitamins)..." 
             class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-teal-600 bg-gray-50"
           >
         </div>
@@ -203,7 +204,7 @@
       </div>
 
       <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <p class="col-span-full text-center text-gray-500 py-8">Loading products from database...</p>
+        <p class="col-span-full text-center text-gray-500 py-12">Loading products from database...</p>
       </div>
     </div>
   </section>
@@ -255,7 +256,6 @@
       
       <div class="space-y-4 mb-8">
         <p class="flex items-center gap-3 text-gray-700">📍 <span>123 Healthcare Blvd, Suite 100</span></p>
-        
         <p class="flex items-start gap-3 text-gray-700">
           <span class="text-lg">📞</span> 
           <span>
@@ -263,7 +263,6 @@
             <a href="tel:+16493424105" class="text-teal-700 font-semibold hover:underline block">+1 (649) 342-4105</a>
           </span>
         </p>
-
         <p class="flex items-center gap-3 text-gray-700">⏰ <span>Mon - Fri: 8:00 AM - 8:00 PM | Sat: 9:00 AM - 5:00 PM</span></p>
       </div>
     </div>
@@ -291,22 +290,20 @@
   </footer>
 
   <script>
-    // 1. Initialize Supabase Client
     const SUPABASE_URL = 'https://vjmzmttkewrwcgkugktm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqbXptdHRrZXdyd2Nna3Vna3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MTUzODYsImV4cCI6MjEwNDI5MTM4Nn0.aNK_StLSnTIdDVyglZLypgvZF66DjsNrKMwkVXKSmT0';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Global State
     let cart = [];
     let allProducts = [];
 
-    // Dedicated Image Error Handler to prevent syntax crashes
+    // Image fallback error handler
     function handleImgError(imgElement, emoji) {
-      imgElement.onerror = null; // prevents endless retry loops
+      imgElement.onerror = null;
       imgElement.parentElement.innerHTML = `<span class="text-5xl">${emoji || '💊'}</span>`;
     }
 
-    // 2. Fetch Products from Supabase
+    // 1. Fetch products from Supabase
     async function fetchProducts() {
       const container = document.getElementById('product-list');
       const { data, error } = await supabaseClient
@@ -315,8 +312,8 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching products:', error);
-        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-8">Failed to load products from database.</p>`;
+        console.error('Database connection error:', error);
+        container.innerHTML = `<p class="col-span-full text-center text-red-500 py-8">Failed to connect to Supabase products table.</p>`;
         return;
       }
 
@@ -324,11 +321,11 @@
       renderProducts(allProducts);
     }
 
-    // 3. Render Product Cards (Supports Image URLs & Fallback Emojis)
+    // 2. Render Product Cards
     function renderProducts(products) {
       const container = document.getElementById('product-list');
       if (!products || products.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">No products found.</p>`;
+        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">No products found matching your criteria.</p>`;
         return;
       }
 
@@ -359,10 +356,9 @@
       }).join('');
     }
 
-    // 4. Live Search Function
+    // 3. Live Search Functionality
     async function searchPillByName(searchTerm) {
       const trimmed = searchTerm.trim();
-      
       if (!trimmed) {
         renderProducts(allProducts);
         return;
@@ -374,15 +370,15 @@
         .ilike('name', `%${trimmed}%`);
 
       if (error) {
-        const localMatches = allProducts.filter(p => p.name.toLowerCase().includes(trimmed.toLowerCase()));
-        renderProducts(localMatches);
+        const filteredLocal = allProducts.filter(p => p.name.toLowerCase().includes(trimmed.toLowerCase()));
+        renderProducts(filteredLocal);
         return;
       }
 
       renderProducts(data);
     }
 
-    // 5. Category Filters
+    // 4. Category Filtering
     function filterProducts(category, btnElement) {
       document.getElementById('pill-search-input').value = '';
       document.querySelectorAll('#category-filters button').forEach(btn => {
@@ -398,7 +394,7 @@
       }
     }
 
-    // 6. Toast Alerts
+    // 5. Toast Notifications
     function showToast(message) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-message');
@@ -407,7 +403,7 @@
       setTimeout(() => { toast.classList.add('hidden'); }, 4000);
     }
 
-    // 7. Shopping Bin Controls
+    // 6. Cart Drawer & Controls
     function toggleCart() {
       document.getElementById('cart-drawer').classList.toggle('translate-x-full');
       document.getElementById('cart-drawer-overlay').classList.toggle('hidden');
@@ -472,7 +468,7 @@
       `).join('');
     }
 
-    // 8. Checkout Modal
+    // 7. Checkout Logic
     function openCheckout() {
       toggleCart();
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
@@ -496,7 +492,7 @@
       }
     }
 
-    // 9. Form Submissions
+    // 8. Form Handlers
     document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('pay-submit-btn');
@@ -576,7 +572,7 @@
       }
     });
 
-    // Load initial products
+    // Initialize Database Sync
     window.addEventListener('DOMContentLoaded', fetchProducts);
   </script>
 
